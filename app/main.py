@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return "Hello, World!\n"
+    return "Hello, World to address {}!\n".format(request.remote_addr)
 
 
 @app.route("/mode", methods=["GET", "POST"])
@@ -23,3 +23,7 @@ def notify(message=""):
         return "all notifications"
     elif request.method == "POST":
         return "receving signal"
+
+
+if __name__ == "__main__":
+    app.run()
