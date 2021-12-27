@@ -1,6 +1,5 @@
-from flask import Flask, request
-
-app = Flask(__name__)
+from flask import request
+from app import app
 
 
 @app.route('/')
@@ -23,7 +22,3 @@ def notify(message=""):
         return "all notifications"
     elif request.method == "POST":
         return "receving signal"
-
-
-if __name__ == "__main__":
-    app.run()
