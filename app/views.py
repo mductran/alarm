@@ -9,8 +9,12 @@ def hello():
 @app.route('/ip', methods=["POST"])
 def register_phone(ip=""):
     if request.method == "POST":
-        with open("app/phone_ip.txt", "w+") as f:
-            f.write(ip+"\n")
+        with open("app/phone_ip.txt", "a") as f:
+            try:
+                f.write(ip+"\n")
+            except:
+                return "failed to register phone ip", 400
+        return "phone paired successfully", 200
 
 @app.route("/mode", methods=["GET", "POST"])
 def changeMode(mode=""):
@@ -24,6 +28,6 @@ def changeMode(mode=""):
 def notify(message=""):
     # get all notifications
     if request.method == "GET":
-        return "all notifications"
+        return "all notifications", 200
     elif request.method == "POST":
-        return "receving signal"
+        return "receving signal", 200
