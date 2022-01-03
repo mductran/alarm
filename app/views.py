@@ -6,6 +6,11 @@ from app import app
 def hello():
     return "Hello, World to address {}!\n".format(request.remote_addr)
 
+@app.route('/ip', methods=["POST"])
+def register_phone(ip=""):
+    if request.method == "POST":
+        with open("app/phone_ip.txt", "w+") as f:
+            f.write(ip+"\n")
 
 @app.route("/mode", methods=["GET", "POST"])
 def changeMode(mode=""):
