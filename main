@@ -1,0 +1,80 @@
+import time
+import requests
+import RPi.GPIO as GPIO
+from RPLCD.gpio import CharLCD
+
+GPIO.setwarnings(False)
+led1 = 11 # Set the LED pin is 17
+led2 = 13
+led3 = 18
+sensor = 7
+
+alarm_on = True
+
+def LDR_read (RCpin):
+    reading = 0
+    GPIO.setup(RCpin, GPIO.OUT) # Set the given LDR pin as output
+    GPIO.output(RCpin, GPIO.LOW) # Send a low voltage signal to the LDR pin
+    time.sleep(0.1) #delay for 1 millisecond
+    # Read the signal value from the LDR pin
+    GPIO.setup(RCpin, GPIO.IN)
+    # Keep reading until we get the input from the LDR is HIGH
+    while (GPIO.input(RCpin) == GPIO.LOW):
+        reading += 1
+    return reading
+
+
+GPIO.setmode(GPIO.BOARD) #set up BCM (Board) for GPIO numbering
+GPIO.setup(led1, GPIO.OUT) # Set the LED as an output
+GPIO.setup(led2, GPIO.OUT)
+GPIO.setup(led3, GPIO.OUT)
+GPIO.output(led3, GPIO.LOW)
+
+GPIO.setup(sensor, GPIO.IN)
+ip = requests.get('https://api.ipify.org').text
+light_status = False
+light_count = 0
+while True:
+
+    # These if statements to turn on and ligth depend on ldr and motion sensor
+    if light_status is True:
+        light_count += 1
+
+    if light_count >= 30:
+        GPIO.output(led3, GPIO.LOW)
+        light_status = False
+        light_count = 0
+    light = LDR_read(16)
+    print(light)
+    print(GPIO.input(sensor))
+    if GPIO.input(sensor) != 0 and light > 25000 and light_status is False:
+        GPIO.output(led3, GPIO.HIGH)
+        light_status = True
+
+
+    # update the signal
+    # mode_response = requests.post("https://alarm-2502.herokuapp.com/alarmMode", data = alarm_on)
+    
+    # alarm_on = requests.get("https://alarm-2502.herokuapp.com/alarmMode", params = #sth)
+
+
+    if alarm_on == True:
+
+        if GPIO.input(sensor) != 0:
+            for i in range(5):
+                GPIO.output(led1, GPIO.HIGH)
+                time.sleep(0.6)
+                GPIO.output(led1, GPIO.LOW)
+                GPIO.output(led2, GPIO.HIGH)
+                time.sleep(0.6)
+                GPIO.output(led2, GPIO.LOW)
+
+            payload = {
+                'pi_ip': ip,
+            }
+            response = requests.post("https://alarm-2502.herokuapp.com/notification>", data = payload)
+            print(response.text)
+        else:
+            GPIO.output(led1, GPIO.LOW)
+            GPIO.output(led2, GPIO.LOW)
+
