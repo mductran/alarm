@@ -23,7 +23,7 @@ def hello():
 
     if request.method == "POST":
         with app.open_resource("static/ip.txt") as f:
-            f.write(request.addr)
+            f.write(request.remote_addr)
         with app.open_resource("static/mode.txt") as f:
             f.write(request.args.get("mode"))
         with app.open_resource("static/notification") as f:
