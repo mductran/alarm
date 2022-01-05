@@ -1,20 +1,32 @@
-from flask import request
+from flask import request, render_template
 from app import app
 
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def hello():
-    return "Hello, World to address {}!\n".format(request.remote_addr)
+    if request.method == "GET":
+        # ip = ""
+        # mode = ""
+        # with open("./pi_ip.txt", "r") as f:
+        #     for line in f:
+        #         pass
+        #     ip = line
+        # with open("./mode.txt", "r") as f:
+        #     for line in f:
+        #         pass
+        #     mode = line
+        return render_template("home.html")
 
-@app.route('/ip', methods=["POST"])
-def register_phone(ip=""):
     if request.method == "POST":
-        with open("app/phone_ip.txt", "a") as f:
-            try:
-                f.write(ip+"\n")
-            except:
-                return "failed to register phone ip", 400
-        return "phone paired successfully", 200
+        addr = request.args.get("address")
+        mode = request.args.get("mode")
+        print("addr: {} \n mode: {}".format(addr, mode))
+        with open("pi_ip.txt", "w") as f:
+            f.write(addr)
+        with open("pi_ip.txt", "w") as f:
+            f.write(mode)
+        return "raspberry pi connected successfully"
+
 
 @app.route("/mode", methods=["GET", "POST"])
 def changeMode(mode=""):
@@ -27,6 +39,10 @@ def changeMode(mode=""):
 @app.route('/notification', methods=["GET", "POST"])
 def notify(message=""):
     # get all notifications
+    with open('filename.txt') as f:
+        for line in f:
+            pass
+        last_line = line
     if request.method == "GET":
         return "all notifications", 200
     elif request.method == "POST":
