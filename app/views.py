@@ -2,6 +2,7 @@ from flask import request, render_template
 from app import app
 import os
 
+
 @app.route('/', methods=["GET", "POST"])
 def hello():
     if request.method == "GET":
@@ -20,17 +21,17 @@ def hello():
         with app.open_resource("static/ip.txt") as f:
             print(f.read())
         with app.open_resource("static/mode.txt") as f:
-            print(f.read())            
+            print(f.read())
         with app.open_resource("static/notification.txt") as f:
             print(f.read())
         return render_template("home.html", ip=ip, mode=mode, notification=notification)
 
     if request.method == "POST":
-        with open(os.path.join(app.root_path, "static/ip.txt")) as f:
+        with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
             f.write(request.remote_addr)
-        with open(os.path.join(app.root_path, "static/mode.txt")) as f:
+        with open(os.path.join(app.root_path, "static/mode.txt"), "w") as f:
             f.write(request.args.get("mode"))
-        with open(os.path.join(app.root_path, "static/notification.txt")) as f:
+        with open(os.path.join(app.root_path, "static/notification.txt"), "w") as f:
             f.write(request.args.get("notification"))
         return render_template("connected")
 
