@@ -21,6 +21,8 @@ def hello():
         return render_template("home.html", ip=ip, mode=mode, notification=notification)
 
     if request.method == "POST":
+        print(request.data)
+
         with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
             f.write(request.data['remote_addr'])
         with open(os.path.join(app.root_path, "static/mode.txt"), "w") as f:
