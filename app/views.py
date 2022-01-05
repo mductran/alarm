@@ -18,11 +18,11 @@ def hello():
         print('request data: ', request.form)
 
         with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
-            f.write(request.data['remote_addr'])
+            f.write(request.form['remote_addr'])
         with open(os.path.join(app.root_path, "static/mode.txt"), "w") as f:
-            f.write(request.data["mode"])
+            f.write(request.form["mode"])
         with open(os.path.join(app.root_path, "static/notification.txt"), "w") as f:
-            f.write(request.data["notification"])
+            f.write(request.form["notification"])
         return render_template("connected")
 
 
