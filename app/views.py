@@ -19,10 +19,13 @@ def hello():
 
         with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
             f.write(request.form['remote_addr'])
+            print(f.read())
         with open(os.path.join(app.root_path, "static/mode.txt"), "w") as f:
             f.write(request.form["mode"])
+            print(f.read())
         with open(os.path.join(app.root_path, "static/notification.txt"), "w") as f:
             f.write(request.form["notification"])
+            print(f.read())
         return render_template("connected")
 
 
