@@ -21,15 +21,12 @@ def hello():
         return render_template("home.html", ip=ip, mode=mode, notification=notification)
 
     if request.method == "POST":
-
-        print(request.args)
-
         with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
-            f.write(request.remote_addr)
+            f.write(request.data['remote_addr'])
         with open(os.path.join(app.root_path, "static/mode.txt"), "w") as f:
-            f.write(request.args.get("mode"))
+            f.write(request.data["mode"])
         with open(os.path.join(app.root_path, "static/notification.txt"), "w") as f:
-            f.write(request.args.get("notification"))
+            f.write(request.data["notification"])
         return render_template("connected")
 
 
