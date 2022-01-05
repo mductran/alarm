@@ -5,20 +5,23 @@ from app import app
 def hello():
     if request.method == "GET":
         with app.open_resource("static/ip.txt") as f:
-            print('ip file ', f.read())
             for line in f:
                 pass
             ip = line
         with app.open_resource("static/mode.txt") as f:
-            print('mode file ', f.read())
             for line in f:
                 pass
             mode = line
         with app.open_resource("static/notification.txt") as f:
-            print('notification file', f.read())
             for line in f:
                 pass
             notification = line
+        with app.open_resource("static/ip.txt") as f:
+            print(f.read())
+        with app.open_resource("static/mode.txt") as f:
+            print(f.read())            
+        with app.open_resource("static/notification.txt") as f:
+            print(f.read())
         return render_template("home.html", ip=ip, mode=mode, notification=notification)
 
     if request.method == "POST":
