@@ -1,4 +1,4 @@
-from flask import request, render_template, url_for
+from flask import request, render_template
 from app import app
 
 @app.route('/', methods=["GET", "POST"])
@@ -11,13 +11,21 @@ def hello():
         return render_template("home.html", ip=ip)
 
     if request.method == "POST":
+        with app.open_resource("static/ip.txt") as f:
+            f.write(request.addr)
+        with app.open_resource("static/mode.txt") as f:
+            f.write(request.args.get("mode"))
         return "raspberry pi connected successfully"
 
 
 @app.route("/mode", methods=["GET", "POST"])
 def changeMode(mode=""):
     if request.method == "GET":
-        return "current mode\n"
+        with app.open_resource("static/mode.txt") as f:
+            for line in f:
+                pass
+            mode = line
+        return mode
     elif request.method == "POST":
         return "changing mode\n"
 
