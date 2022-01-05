@@ -18,15 +18,12 @@ def hello():
             for line in f:
                 pass
             notification = line
-        with app.open_resource("static/ip.txt") as f:
-            print(f.read())
-        with app.open_resource("static/mode.txt") as f:
-            print(f.read())
-        with app.open_resource("static/notification.txt") as f:
-            print(f.read())
         return render_template("home.html", ip=ip, mode=mode, notification=notification)
 
     if request.method == "POST":
+
+        print(request.args)
+
         with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
             f.write(request.remote_addr)
         with open(os.path.join(app.root_path, "static/mode.txt"), "w") as f:
