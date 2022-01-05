@@ -7,21 +7,15 @@ import os
 def hello():
     if request.method == "GET":
         with app.open_resource("static/ip.txt") as f:
-            for line in f:
-                pass
-            ip = line
+            ip = f.readline()
         with app.open_resource("static/mode.txt") as f:
-            for line in f:
-                pass
-            mode = line
+            mode = f.readline()
         with app.open_resource("static/notification.txt") as f:
-            for line in f:
-                pass
-            notification = line
+            notification = f.readline()
         return render_template("home.html", ip=ip, mode=mode, notification=notification)
 
     if request.method == "POST":
-        print(request.data)
+        print('request data: ', request.data)
 
         with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
             f.write(request.data['remote_addr'])
