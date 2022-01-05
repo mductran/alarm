@@ -1,5 +1,6 @@
 from flask import request, render_template
 from app import app
+import os
 
 @app.route('/', methods=["GET", "POST"])
 def hello():
@@ -25,11 +26,11 @@ def hello():
         return render_template("home.html", ip=ip, mode=mode, notification=notification)
 
     if request.method == "POST":
-        with app.open_resource("static/ip.txt") as f:
+        with open(os.path.join(app.root_path, "static/ip.txt")) as f:
             f.write(request.remote_addr)
-        with app.open_resource("static/mode.txt") as f:
+        with open(os.path.join(app.root_path, "static/mode.txt")) as f:
             f.write(request.args.get("mode"))
-        with app.open_resource("static/notification") as f:
+        with open(os.path.join(app.root_path, "static/notification.txt")) as f:
             f.write(request.args.get("notification"))
         return render_template("connected")
 
