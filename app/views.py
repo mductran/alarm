@@ -8,14 +8,18 @@ def hello():
             for line in f:
                 pass
             ip = line
-        return render_template("home.html", ip=ip)
+        with app.open_resource("static/mode.txt") as f:
+            for line in f:
+                pass
+            mode = line
+        return render_template("home.html", ip=ip, mode=mode)
 
     if request.method == "POST":
         with app.open_resource("static/ip.txt") as f:
             f.write(request.addr)
         with app.open_resource("static/mode.txt") as f:
             f.write(request.args.get("mode"))
-        return "raspberry pi connected successfully"
+        return render_template("connected")
 
 
 @app.route("/mode", methods=["GET", "POST"])
