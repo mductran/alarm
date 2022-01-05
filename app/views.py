@@ -18,7 +18,7 @@ def hello():
         print('request data: ', request.form)
 
         with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
-            f.write(request.form['remote_addr'])
+            f.write(request.remote_addr)
             print(f.read())
         with open(os.path.join(app.root_path, "static/mode.txt"), "w") as f:
             f.write(request.form["mode"])
