@@ -19,7 +19,7 @@ def hello():
         print('request data: {}, {}'.format(request.form['mode'], request.form['notification']))
 
         with open(os.path.join(app.root_path, "static/ip.txt"), "r+") as f:
-            f.write(request.remote_addr)
+            f.write(request.form['addr'])
             f.seek(0)
             print(f.read())
         with open(os.path.join(app.root_path, "static/mode.txt"), "r+") as f:
@@ -30,7 +30,7 @@ def hello():
             f.write(request.form["notification"])
             f.seek(0)
             print(f.read())            
-        return render_template("connected")
+        return "connected"
 
 
 @app.route("/mode", methods=["GET", "POST"])
