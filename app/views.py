@@ -16,17 +16,20 @@ def hello():
 
     if request.method == "POST":
         print('request data: ', request.form)
-        print('request data: {}, {}'.format(request.form['mode'], request.form))
+        print('request data: {}, {}'.format(request.form['mode'], request.form['notification']))
 
-        with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
+        with open(os.path.join(app.root_path, "static/ip.txt"), "r+") as f:
             f.write(request.remote_addr)
+            f.seek(0)
             print(f.read())
-        with open(os.path.join(app.root_path, "static/mode.txt"), "w") as f:
+        with open(os.path.join(app.root_path, "static/mode.txt"), "r+") as f:
             f.write(request.form["mode"])
+            f.seek(0)
             print(f.read())
-        with open(os.path.join(app.root_path, "static/notification.txt"), "w") as f:
+        with open(os.path.join(app.root_path, "static/notification.txt"), "r+") as f:
             f.write(request.form["notification"])
-            print(f.read())
+            f.seek(0)
+            print(f.read())            
         return render_template("connected")
 
 
