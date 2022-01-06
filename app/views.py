@@ -16,6 +16,7 @@ def hello():
 
     if request.method == "POST":
         print('request data: ', request.form)
+        print('request data: {}, {}'.format(request.form['mode'], request.form))
 
         with open(os.path.join(app.root_path, "static/ip.txt"), "w") as f:
             f.write(request.remote_addr)
