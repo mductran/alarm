@@ -19,7 +19,7 @@
     Alarm mode
   </h3>
   <label class="switch">
-    <input type="checkbox" name="togBtn" onclick="onModeChange();">
+    <input type="checkbox" id="togBtn" onclick="onModeChange();">
     <div class="slider round">
       <!--ADDED HTML -->
       <span class="on">ON</span>
@@ -31,31 +31,36 @@
 
 <script>
 async function onModeChange() {
-  var ip = document.getElementById("raspi").innerHTML + ":5000"
-  console.log(ip)
-  if (document.getElementsByName("togBtn").checked) {
+  const url = "http://10.247.169.41:5000"
+  console.log(url)
+  console.log(document.getElementById("togBtn").checked)
+  if (document.getElementById("togBtn").checked) {
     const response = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      mode: "cors",
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
       redirect: "follow",
       body: JSON.stringify({
         "mode": "alarm"
       })
     })
+    console.log(respones)
   }
   else {
     const response = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      mode: "cors",
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
       redirect: "follow",
       body: JSON.stringify({
-        "mode": "alarm"
+        "mode": "lighting"
       })
     })
+    console.log(response)
   }
 }
 </script>
