@@ -10,7 +10,7 @@
 <img
   src="https://cdn2.vectorstock.com/i/1000x1000/60/76/abstract-symbol-security-company-shield-logo-vector-26746076.jpg">
 <h2>
-  Notification: Warning from system at <p id="raspi"> raspberry ip: {{ ip }}</p> at {{ notification }}.
+  Notification: Warning from system at <p id="raspi">{{ ip }}</p> at {{ notification }}.
 
 </h2>
 
@@ -19,7 +19,7 @@
     Alarm mode
   </h3>
   <label class="switch">
-    <input type="checkbox" name="togBtn">
+    <input type="checkbox" name="togBtn" onclick="onModeChange();">
     <div class="slider round">
       <!--ADDED HTML -->
       <span class="on">ON</span>
@@ -30,33 +30,34 @@
 </div>
 
 <script>
-  $('input[name=togBtn]').change(
-    function () {
-      var ip = $("#raspi").text()
-      console.log("ip", ip)
-      if ($(this).is(':checked')) {
-        $.post(
-          ip,
-          {
-            "mode": "alarm"
-          },
-          function (data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
-          });
-
-      } else {
-        console.log("Checkbox is not checked..")
-        $.post(
-          ip,
-          {
-            "mode": "lighting"
-          },
-          function (data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
-          });
-      }
-    });
-
+async function onModeChange() {
+  var ip = document.getElementById("raspi").innerHTML + ":5000"
+  console.log(ip)
+  if (document.getElementsByName("togBtn").checked) {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify({
+        "mode": "alarm"
+      })
+    })
+  }
+  else {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify({
+        "mode": "alarm"
+      })
+    })
+  }
+}
 </script>
 
 <style>

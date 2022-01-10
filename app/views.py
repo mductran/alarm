@@ -7,11 +7,11 @@ import os
 def hello():
     if request.method == "GET":
         with app.open_resource("static/ip.txt") as f:
-            ip = f.readline()
+            ip = f.readline().decode("ascii")
         with app.open_resource("static/mode.txt") as f:
-            mode = f.readline()
+            mode = f.readline().decode("ascii")
         with app.open_resource("static/notification.txt") as f:
-            notification = f.readline()
+            notification = f.readline().decode("ascii")
         return render_template("home.html", ip=ip, mode=mode, notification=notification)
 
     if request.method == "POST":
