@@ -18,51 +18,52 @@
   <h3>
     Alarm mode
   </h3>
-  <label class="switch">
-    <input type="checkbox" id="togBtn" onclick="onModeChange();">
-    <div class="slider round">
-      <!--ADDED HTML -->
-      <span class="on">ON</span>
-      <span class="off">OFF</span>
-      <!--END-->
-    </div>
-  </label>
+  {% if mode %}
+  <p id="mode-desc">Running in alarm mode</p>
+  {% else %}
+  <p id="mode-desc">Running in lighting mode</p>
+  {% endif %}
+
+  <input type="button" value="change mode" id="togBtn" onclick="onModeChange();">
+
 </div>
 
 <script>
-async function onModeChange() {
-  const url = "http://10.247.169.41:5000"
-  console.log(url)
-  console.log(document.getElementById("togBtn").checked)
-  if (document.getElementById("togBtn").checked) {
-    const response = await fetch(url, {
-      method: "POST",
-      mode: "cors",
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
-      redirect: "follow",
-      body: JSON.stringify({
-        "mode": "alarm"
+  async function onModeChange() {
+    const url = "http://10.247.169.41:5000"
+    console.log(url)
+
+    console.log(document.getElementById("mode-desc").innerHTML)
+
+    if (document.getElementById("mode-desc").innerHTML == "Running in lighting mode") {
+      const response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        redirect: "follow",
+        body: JSON.stringify({
+          "mode": "alarm"
+        })
       })
-    })
-    console.log(respones)
-  }
-  else {
-    const response = await fetch(url, {
-      method: "POST",
-      mode: "cors",
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
-      redirect: "follow",
-      body: JSON.stringify({
-        "mode": "lighting"
+      window.location.reload()
+    }
+    else {
+      const response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        redirect: "follow",
+        body: JSON.stringify({
+          "mode": "lighting"
+        })
       })
-    })
-    console.log(response)
+      window.location.reload()
+    }
   }
-}
 </script>
 
 <style>
