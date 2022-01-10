@@ -10,7 +10,8 @@
 <img
   src="https://cdn2.vectorstock.com/i/1000x1000/60/76/abstract-symbol-security-company-shield-logo-vector-26746076.jpg">
 <h2>
-  Notification: Warning from system at <p id="raspi"> raspberry ip: {{ ip }}</p>
+  Notification: Warning from system at <p id="raspi"> raspberry ip: {{ ip }}</p> at {{ notification }}.
+
 </h2>
 
 <div class="alarm">
@@ -33,7 +34,7 @@
     function () {
       var ip = $("#raspi").val()
       if ($(this).is(':checked')) {
-        console.log("Checkbox is checked..")
+        console.log("ip", ip)
         $.post(
           ip,
           {
