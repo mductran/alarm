@@ -32,9 +32,9 @@
 <script>
   $('input[name=togBtn]').change(
     function () {
-      var ip = $("#raspi").val()
+      var ip = $("#raspi").text()
+      console.log("ip", ip)
       if ($(this).is(':checked')) {
-        console.log("ip", ip)
         $.post(
           ip,
           {
