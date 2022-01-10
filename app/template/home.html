@@ -1,121 +1,167 @@
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
 <h1>
-    Home Page
+  Home Page
 </h1>
-<img src="https://cdn2.vectorstock.com/i/1000x1000/60/76/abstract-symbol-security-company-shield-logo-vector-26746076.jpg">
-<h2> 
-    Notification: Warning from system at
+<img
+  src="https://cdn2.vectorstock.com/i/1000x1000/60/76/abstract-symbol-security-company-shield-logo-vector-26746076.jpg">
+<h2>
+  Notification: Warning from system at <p id="raspi"> raspberry ip: {{ ip }}</p>
 </h2>
 
 <div class="alarm">
-<h3>
+  <h3>
     Alarm mode
-</h3>
-<label class="switch" >
-    <input type="checkbox" id="togBtn">
+  </h3>
+  <label class="switch">
+    <input type="checkbox" name="togBtn">
     <div class="slider round">
-     <!--ADDED HTML -->
-     <span class="on">ON</span>
-     <span class="off">OFF</span>
-     <!--END-->
+      <!--ADDED HTML -->
+      <span class="on">ON</span>
+      <span class="off">OFF</span>
+      <!--END-->
     </div>
-   </label>
+  </label>
 </div>
-<p> raspberry ip: {{ ip }}</p>
 
+<script>
+  $('input[name=togBtn]').change(
+    function () {
+      var ip = $("#raspi").val()
+      if ($(this).is(':checked')) {
+        console.log("Checkbox is checked..")
+        $.post(
+          ip,
+          {
+            "mode": "alarm"
+          },
+          function (data, status) {
+            alert("Data: " + data + "\nStatus: " + status);
+          });
+
+      } else {
+        console.log("Checkbox is not checked..")
+        $.post(
+          ip,
+          {
+            "mode": "lighting"
+          },
+          function (data, status) {
+            alert("Data: " + data + "\nStatus: " + status);
+          });
+      }
+    });
+
+</script>
 
 <style>
-    h1{text-align: center;
-    line-height: 100px;}
-    img{width:100px;
+  h1 {
+    text-align: center;
+    line-height: 100px;
+  }
+
+  img {
+    width: 100px;
     position: fixed;
-    top:0;
-    
-    }
-    .switch {
-  position: relative;
-  display: inline-block;
-  width: 90px;
-  height: 34px;
-  margin-left: 20px;
-  top:10px;
-}
+    top: 0;
 
-.switch input {display:none;}
+  }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ca2222;
-  -webkit-transition: .4s;
-  transition: .4s;
-  
-}
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 34px;
+    margin-left: 20px;
+    top: 10px;
+  }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+  .switch input {
+    display: none;
+  }
 
-input:checked + .slider {
-  background-color: #2ab934;
-}
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ca2222;
+    -webkit-transition: .4s;
+    transition: .4s;
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
+  }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(55px);
-  -ms-transform: translateX(55px);
-  transform: translateX(55px);
-}
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
 
-/*------ ADDED CSS ---------*/
-.on
-{
-  display: none;
-}
+  input:checked+.slider {
+    background-color: #2ab934;
+  }
 
-.on, .off
-{
-  color: white;
-  position: absolute;
-  transform: translate(-50%,-50%);
-  top: 50%;
-  left: 50%;
-  font-size: 10px;
-  font-family: Verdana, sans-serif;
-}
+  input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
 
-input:checked+ .slider .on
-{display: block;}
+  input:checked+.slider:before {
+    -webkit-transform: translateX(55px);
+    -ms-transform: translateX(55px);
+    transform: translateX(55px);
+  }
 
-input:checked + .slider .off
-{display: none;}
+  /*------ ADDED CSS ---------*/
+  .on {
+    display: none;
+  }
 
-/*--------- END --------*/
+  .on,
+  .off {
+    color: white;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    font-size: 10px;
+    font-family: Verdana, sans-serif;
+  }
 
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
+  input:checked+.slider .on {
+    display: block;
+  }
 
-.slider.round:before {
-  border-radius: 50%;}
-.alarm{
+  input:checked+.slider .off {
+    display: none;
+  }
+
+  /*--------- END --------*/
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .alarm {
     display: flex;
 
-}
+  }
 </style>
 
+</html>
